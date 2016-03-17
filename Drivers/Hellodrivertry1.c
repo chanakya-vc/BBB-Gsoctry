@@ -2,7 +2,7 @@
 #include <linux/kernel.h>
 int init_module(void)
 {
-	printk(KERN_ALERT "Hello Humans,This is VC speaking");
+	printk(KERN_ALERT "Hello Humans,This is Vaibhav Choudhary speaking");
 	return 0;
 }
 
