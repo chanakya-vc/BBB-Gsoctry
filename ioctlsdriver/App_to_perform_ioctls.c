@@ -63,7 +63,7 @@ int main()
 			break;
 		}
 		printf("Want to perform more actions?\n");
-		scanf("%c"&ans);
+		scanf("%c",&ans);
 		
 
 	}
