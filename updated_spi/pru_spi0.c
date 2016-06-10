@@ -69,7 +69,7 @@ uint8_t i=0;
 				//set clk 1
 				__R30^=(1<<CLK);
 				//write data to it
-				if ((mosi>>(7-i))&0x80)
+				if ((mosi<<(7-i))&0x80)
 				{
 					__R30|=(1<<P8_11);
 				}
@@ -87,7 +87,7 @@ uint8_t i=0;
 				//set clk 0
 				__R30^=(1<<CLK);
 				//write data on the falling edge
-				if ((mosi>>(7-i))&0x80)
+				if ((mosi<<(7-i))&0x80)
 				{
 					__R30|=(1<<P8_11);
 				}
@@ -103,7 +103,7 @@ uint8_t i=0;
 				//set clk 0 to set it in active state
 				__R30^=(1<<CLK);
 				//write data on the falling edge
-				if ((mosi>>(7-i))&0x80)
+				if ((mosi<<(7-i))&0x80)
 				{
 					__R30|=(1<<P8_11);
 				}
@@ -125,7 +125,7 @@ uint8_t i=0;
 				//set clk 1 to idle state
 				__R30^=(1<<CLK);
 				//write data on the rising edge
-				if ((mosi>>(7-i))&0x80)
+				if ((mosi<<(7-i))&0x80)
 				{
 					__R30|=(1<<P8_11);
 				}
