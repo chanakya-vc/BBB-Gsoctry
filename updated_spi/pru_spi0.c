@@ -51,19 +51,17 @@ uint8_t i=0;
 	__R30=0x0000;
 	//setmosi to test data
 	mosi=0X6;
-	//shifting this data to the 15 place
-	mosi<<=P8_11;
 	CPOL=1;
-	CPHA=2;
-	//set value of the CLOCK_POL_PHA variable between 0 and 3
-	uint8_t CLOCK_POL_PHA=(CPOL<<1)|CPHA;
-	if (CLOCK_POL_PHA>=2)
+	CPHA=1;
+	//set value of the clock_pol_pha variable between 0 and 3
+	uint8_t clock_pol_pha=(CPOL*2)+CPHA;
+	if (clock_pol_pha>=2)
 	{
 		//set the clock 1 to be in its idle state
 		__R30^=(1<<CLK);
 	}
 
-	switch(CLOCK_POL_PHA){
+	switch(clock_pol_pha){
 		case 0:	
 
 			for ( i=0;i<8;i++)
@@ -71,7 +69,7 @@ uint8_t i=0;
 				//set clk 1
 				__R30^=(1<<CLK);
 				//write data to it
-				if ((mosi>>7-i)&0x1)
+				if ((mosi>>(7-i))&0x80)
 				{
 					__R30|=(1<<P8_11);
 				}
@@ -79,10 +77,7 @@ uint8_t i=0;
 				__R30^=(1<<CLK);
 				//Reset the register
 				__R30=0x0000;
-				//shift data in Mosi
-				mosi<<=1;
-
-		    }
+			}
 		    break;
 		case 1:
 			for ( i=0;i<8;i++)
@@ -92,14 +87,12 @@ uint8_t i=0;
 				//set clk 0
 				__R30^=(1<<CLK);
 				//write data on the falling edge
-				if ((mosi>>7-i)&0x1111)
+				if ((mosi>>(7-i))&0x80)
 				{
 					__R30|=(1<<P8_11);
 				}
-				//Reset the register
+				//Reset the registers
 				__R30=0x0000;
-				//shift data in Mosi
-				mosi<<=1;
 
 		    }
 		    break;
@@ -110,7 +103,7 @@ uint8_t i=0;
 				//set clk 0 to set it in active state
 				__R30^=(1<<CLK);
 				//write data on the falling edge
-				if ((mosi>>7-i)&0x1111)
+				if ((mosi>>(7-i))&0x80)
 				{
 					__R30|=(1<<P8_11);
 				}
@@ -120,7 +113,7 @@ uint8_t i=0;
 				//Reset the data pin in the register to 0
 				__R30&=(0<<P8_11);
 				//shift data in Mosi
-				mosi<<=1;
+
 
 		    }
 		    break;
@@ -132,16 +125,14 @@ uint8_t i=0;
 				//set clk 1 to idle state
 				__R30^=(1<<CLK);
 				//write data on the rising edge
-				if ((mosi>>7-i)&0x1111)
+				if ((mosi>>(7-i))&0x80)
 				{
 					__R30|=(1<<P8_11);
 				}
 				//Reset the data pin in the register to 0
 				__R30&=(0<<P8_11);
 				//shift data in Mosi
-				mosi<<=1;
-
-		    }
+			}
 
 		    break;
  		default:
